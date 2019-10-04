@@ -5,9 +5,16 @@ base_URL = 'https://api.github.com'
 username = sys.argv[1]
 pull_requests = "/repos/{owner}/{repo}/pulls/{pull_number}/reviews"
 user_repos = f"/users/{username}/repos"
-response = requests.get(f"{base_URL}{user_repos}")
+rate_limit = "/rate_limit"
+
+def make_request(url, path):
+  return requests.get(f"{url}{path}")
+
+response = make_request(base_URL, rate_limit)
+
 data = response.json()
 error = response.json()
+print(data)
 
 def get_language(data_obj):
     if error:
