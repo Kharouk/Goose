@@ -7,9 +7,14 @@ pull_requests = "/repos/{owner}/{repo}/pulls/{pull_number}/reviews"
 user_repos = f"/users/{username}/repos"
 response = requests.get(f"{base_URL}{user_repos}")
 data = response.json()
+error = response.json()
 
 def get_language(data_obj):
-    return data_obj["language"]
+    if error:
+      print(error["message"])
+      sys.exit()
+    else:
+      return data_obj["language"]
 
 
 fave_languages = list(map(get_language, data))
@@ -21,7 +26,6 @@ def calculate_fave_language(langs):
     language_count = dict((x, langs.count(x)) for x in set(langs))
 
     for language, count in language_count.items():
-      print(f"incrementing language {language}")
       if count > max_count:
         fave_language = language
         max_count = count
@@ -32,9 +36,14 @@ def calculate_fave_language(langs):
 
 
 def text_to_display(language):
-  if language != "None":
-    print(f"Your favourite language is {language}")
+  if language != None:
+    print(f"Your favorite language is {language}")
+  elif language == None:
+    print("You either have a lot of repositories with READMEs or are empty. Go write code!")
+  else:
+    print("Sorry, our systems are currently not working; we apologise that you are unable to find your favourite language.")
 
 calculate_fave_language(fave_languages)
 
+text_to_display(calculate_fave_language(fave_languages))
 
