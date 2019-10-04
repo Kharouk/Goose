@@ -1,11 +1,14 @@
 # https://api.github.com
 import requests, sys
+from backend.paths import test
 
 base_URL = 'https://api.github.com'
 username = sys.argv[1]
 pull_requests = "/repos/{owner}/{repo}/pulls/{pull_number}/reviews"
 user_repos = f"/users/{username}/repos"
 rate_limit = "/rate_limit"
+
+print(test)
 
 def make_request(url, path):
   return requests.get(f"{url}{path}")
